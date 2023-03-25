@@ -7,9 +7,11 @@ const axios = require("axios");
 const express = require("express");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT;
+const { openai, userInterface } = require("./Chat/chat");
 
 const productRoutes = require("./Routes/products-route");
 const basketRoutes = require("./Routes/basket-route");
+const chatRoutes = require("./Routes/chat-route");
 
 // express app
 const app = express();
@@ -25,6 +27,9 @@ app.use(cors());
 // routes
 app.use("/api/products", productRoutes);
 app.use("/api/basket", basketRoutes);
+app.use("/api/chat", chatRoutes);
+
+// chat API
 
 // connect to db
 mongoose
