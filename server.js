@@ -12,6 +12,7 @@ const { openai, userInterface } = require("./Chat/chat");
 const productRoutes = require("./Routes/products-route");
 const basketRoutes = require("./Routes/basket-route");
 const chatRoutes = require("./Routes/chat-route");
+const sendPrompt = require("./Chat/prime");
 
 // express app
 const app = express();
@@ -40,5 +41,6 @@ mongoose
   .then(() => {
     // listen for requests when db is connected
     app.listen(PORT, () => console.log(`connected to db and listening on ${PORT}`));
+    sendPrompt();
   })
   .catch((err) => console.log(err));
