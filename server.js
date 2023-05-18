@@ -1,18 +1,22 @@
-"use strict";
+'use strict';
 
-require("dotenv").config();
+require('dotenv').config();
 
-const cors = require("cors");
-const axios = require("axios");
-const express = require("express");
-const mongoose = require("mongoose");
-const PORT = process.env.PORT;
-const { openai, userInterface } = require("./Chat/chat");
+const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
+const axios = require('axios');
+const express = require('express');
+const mongoose = require('mongoose');
+const PORT = process.env.PORT || 5000;
+const { openai, userInterface } = require('./Chat/chat');
 
-const productRoutes = require("./Routes/products-route");
-const basketRoutes = require("./Routes/basket-route");
-const chatRoutes = require("./Routes/chat-route");
-const sendPrompt = require("./Chat/prime");
+const root = require('./routes/root');
+const path = require('path');
+
+const productRoutes = require('./routes/productsRoutes');
+const basketRoutes = require('./routes/basketRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const sendPrompt = require('./Chat/prime');
 
 // express app
 const app = express();
@@ -23,12 +27,23 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // routes
-app.use("/api/products", productRoutes);
-app.use("/api/basket", basketRoutes);
-app.use("/api/chat", chatRoutes);
+app.use('/', root);
+app.use('/api/products', productRoutes);
+app.use('/api/basket', basketRoutes);
+app.use('/api/chat', chatRoutes);
+app.all('*', (req, res) => {
+  res.status(404);
+  if (req.accepts('html')) {
+    res.sendFile(path.join(__dirname, 'views', '404.html'));
+  } else if (req.accepts('json')) {
+    res.json({ message: '404 Not found' });
+  } else {
+    res.type('txt').send('404 Not found');
+  }
+});
 
 // chat API
 
