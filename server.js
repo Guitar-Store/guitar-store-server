@@ -13,7 +13,7 @@ const { openai, userInterface } = require('./Chat/chat');
 const root = require('./routes/root');
 const path = require('path');
 
-const productRoutes = require('./routes/productsRoutes');
+const productRoutes = require('./routes/productRoutes');
 const basketRoutes = require('./routes/basketRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const sendPrompt = require('./Chat/prime');
