@@ -8,15 +8,15 @@ const axios = require('axios');
 const express = require('express');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
-const { openai, userInterface } = require('./Chat/chat');
+
 
 const root = require('./routes/root');
 const path = require('path');
 
 const productRoutes = require('./routes/productRoutes');
-const basketRoutes = require('./routes/basketRoutes');
-const chatRoutes = require('./routes/chatRoutes');
-const sendPrompt = require('./Chat/prime');
+const customerRoutes = require('./routes/customerRoutes');
+// const chatRoutes = require('./routes/chatRoutes');
+// const sendPrompt = require('./Chat/prime');
 
 // express app
 const app = express();
@@ -32,8 +32,8 @@ app.use(cors(corsOptions));
 // routes
 app.use('/', root);
 app.use('/api/products', productRoutes);
-app.use('/api/basket', basketRoutes);
-app.use('/api/chat', chatRoutes);
+app.use('/api/basket', customerRoutes);
+// app.use('/api/chat', chatRoutes);
 app.all('*', (req, res) => {
   res.status(404);
   if (req.accepts('html')) {
@@ -56,6 +56,6 @@ mongoose
   .then(() => {
     // listen for requests when db is connected
     app.listen(PORT, () => console.log(`connected to db and listening on ${PORT}`));
-    sendPrompt();
+    // sendPrompt();
   })
   .catch((err) => console.log(err));

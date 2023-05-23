@@ -1,6 +1,6 @@
 const { openai, userInterface } = require('../Chat/chat');
 
-const chatQuery = async (prompt) => {
+const chatQuery = async (req, res) => {
   const { prompt } = req.body;
   try {
     const completion = await userInterface.prompt(prompt);
