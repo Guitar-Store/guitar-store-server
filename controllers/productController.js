@@ -1,10 +1,10 @@
 const { default: mongoose } = require('mongoose');
 const Product = require('../models/Product');
 
-// GET all products
+// GET all products (without deals)
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({}).sort({ createdAt: -1 });
+    const products = await Product.find({ offer: { $eq: null } }).sort({ createdAt: -1 });
     res.status(200).json(products);
   } catch (err) {
     res.status(500).json({ message: err.message });
